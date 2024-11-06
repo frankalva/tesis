@@ -15,14 +15,24 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user){
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
-
+    public ResponseEntity<?> registerUser(@RequestBody User user){
+        try {
+            User registeredUser = userService.registerUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error en el registro de usuario");
+        }
     }
 
     @GetMapping("/getEmail")
-    public User getUserByEmail(@RequestParam String email){
-        return userService.getUserByEmail(email);
+    public ResponseEntity<User> getUserByEmail(@RequestParam String email){
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
-
 }
