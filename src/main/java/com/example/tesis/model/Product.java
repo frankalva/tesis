@@ -1,10 +1,7 @@
 package com.example.tesis.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="products")
 public class Product {
 
     @Id
@@ -23,7 +21,7 @@ public class Product {
 
     private  String name;
     private Double price;
-    private  String imageUrl;
+    private  String image_url;
 
 
 }
