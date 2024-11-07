@@ -26,6 +26,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password){
+            User user = userService.loginUser(email,password);
+            if (user != null) {
+                return ResponseEntity.ok(user);
+            } else {
+                // Retorna 401 Unauthorized si las credenciales son incorrectas
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+            }
+    }
+
     @GetMapping("/getEmail")
     public ResponseEntity<User> getUserByEmail(@RequestParam String email){
         User user = userService.getUserByEmail(email);
