@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/users")
 public class UserController {
@@ -27,8 +29,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password){
-            User user = userService.loginUser(email,password);
+    public ResponseEntity<?> login(@RequestBody Map<String, String> loginData){
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+
+        User user = userService.loginUser(email, password);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {
